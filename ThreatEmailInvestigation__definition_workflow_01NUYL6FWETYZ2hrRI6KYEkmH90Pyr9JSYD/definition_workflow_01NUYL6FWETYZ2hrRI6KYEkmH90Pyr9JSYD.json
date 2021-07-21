@@ -7,34 +7,6 @@
     "base_type": "workflow",
     "variables": [
       {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Webex Teams Room Name",
-          "type": "datatype.string",
-          "description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages. If you don't want to use Webex, leave this blank",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01NUYL6FN33ZT5oHtBHW7I5Bblsc3aAXHXM",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.secure_string",
-        "properties": {
-          "value": "*****",
-          "scope": "local",
-          "name": "Webex Teams Access Token",
-          "type": "datatype.secure_string",
-          "description": "The access token to use to authenticate to the Webex Teams API. Information about using a bot, which is what we recommend, can be found here: https://developer.webex.com/docs/bots",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01NUYL6FN2N6P7kOz1WXjzbyihBDsbVHtbF",
-        "object_type": "variable_workflow"
-      },
-      {
         "schema_id": "datatype.integer",
         "properties": {
           "value": 0,
@@ -46,20 +18,6 @@
           "is_invisible": false
         },
         "unique_name": "variable_workflow_01NUYL6FN2LH26J9xy544H3RuZyoBQLrbQl",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Threat Response Environment URL",
-          "type": "datatype.string",
-          "description": "Placeholder for the URL of the Threat Response environment being used. You don't need to provide this, it will be fetched automatically",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01NUYL6FN2U0P5xsNkoSUr1RsSzUIxAaFxL",
         "object_type": "variable_workflow"
       },
       {
@@ -77,33 +35,6 @@
         "object_type": "variable_workflow"
       },
       {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Webex Text",
-          "type": "datatype.string",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01NUYL6FN2SG12ShR8ckrMPniBoHuplnlcZ",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "Y2lzY29zcGFyazovL3VzL1JPT00vNGQ0N2MxMDAtN2QxNy0xMWViLWI2NzgtMDU4MjEwYTgyYjk1",
-          "scope": "local",
-          "name": "Webex_Teams_RoomID",
-          "type": "datatype.string",
-          "description": "To easily find the room ID, add roomid@webex.bot to your room.  It will send you a private message with the ID of the room you added it to.  Then it will remove itself from the room.",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01NUYL6FN2X9Q1Mlg60aD5k8iAZvBFkBQPf",
-        "object_type": "variable_workflow"
-      },
-      {
         "schema_id": "datatype.secure_string",
         "properties": {
           "value": "",
@@ -118,31 +49,45 @@
         "object_type": "variable_workflow"
       },
       {
-        "schema_id": "datatype.boolean",
+        "schema_id": "datatype.string",
         "properties": {
-          "value": false,
+          "value": "grecoope@cisco.com",
           "scope": "local",
-          "name": "FoundTargets",
-          "type": "datatype.boolean",
-          "description": "Were any targets found during the investigation?",
+          "name": "Notification Email",
+          "type": "datatype.string",
+          "description": "Email Address to which notifications are sent upon completion of an investigation.",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01NUYL6FN2OWR1WOrT7TYUHp3Ggmi47qeCr",
+        "unique_name": "variable_workflow_01OJL4QMQV8G93cRsCRLyMs7JmidGxQ9XcF",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "*****",
+          "scope": "local",
+          "name": "Webex Teams Access Token",
+          "type": "datatype.secure_string",
+          "description": "The access token to use to authenticate to the Webex Teams API. Information about using a bot, which is what we recommend, can be found here: https://developer.webex.com/docs/bots",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NUYL6FN2N6P7kOz1WXjzbyihBDsbVHtbF",
         "object_type": "variable_workflow"
       },
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "[]",
+          "value": "",
           "scope": "local",
-          "name": "Non-Clean Observables",
+          "name": "Threat Response Environment URL",
           "type": "datatype.string",
-          "description": "A JSON-formatted list of observables that have a disposition of unknown, suspicious, or malicious",
+          "description": "Placeholder for the URL of the Threat Response environment being used. You don't need to provide this, it will be fetched automatically",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01NUYL6FN2VOC4Ks9hwx9dSxzClzIwzCM1C",
+        "unique_name": "variable_workflow_01NUYL6FN2U0P5xsNkoSUr1RsSzUIxAaFxL",
         "object_type": "variable_workflow"
       },
       {
@@ -164,6 +109,20 @@
         "properties": {
           "value": "[]",
           "scope": "local",
+          "name": "Non-Clean Observables",
+          "type": "datatype.string",
+          "description": "A JSON-formatted list of observables that have a disposition of unknown, suspicious, or malicious",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NUYL6FN2VOC4Ks9hwx9dSxzClzIwzCM1C",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "[]",
+          "scope": "local",
           "name": "Sightings",
           "type": "datatype.string",
           "description": "Placeholder for a list of sightings from your Threat Response modules",
@@ -171,6 +130,47 @@
           "is_invisible": false
         },
         "unique_name": "variable_workflow_01NUYL6FN32BJ6yQ6M7hDkeoxmw1kONFZrU",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "Y2lzY29zcGFyazovL3VzL1JPT00vNGQ0N2MxMDAtN2QxNy0xMWViLWI2NzgtMDU4MjEwYTgyYjk1",
+          "scope": "local",
+          "name": "Webex_Teams_RoomID",
+          "type": "datatype.string",
+          "description": "To easily find the room ID, add roomid@webex.bot to your room.  It will send you a private message with the ID of the room you added it to.  Then it will remove itself from the room.",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NUYL6FN2X9Q1Mlg60aD5k8iAZvBFkBQPf",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Webex Text",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NUYL6FN2SG12ShR8ckrMPniBoHuplnlcZ",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.boolean",
+        "properties": {
+          "value": false,
+          "scope": "local",
+          "name": "FoundTargets",
+          "type": "datatype.boolean",
+          "description": "Were any targets found during the investigation?",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NUYL6FN2OWR1WOrT7TYUHp3Ggmi47qeCr",
         "object_type": "variable_workflow"
       },
       {
@@ -184,6 +184,20 @@
           "is_invisible": false
         },
         "unique_name": "variable_workflow_01NUYL6FN2YWH0xItNkLPF1ARGSlvB39ngg",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Webex Teams Room Name",
+          "type": "datatype.string",
+          "description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages. If you don't want to use Webex, leave this blank",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NUYL6FN33ZT5oHtBHW7I5Bblsc3aAXHXM",
         "object_type": "variable_workflow"
       }
     ],
@@ -1501,7 +1515,7 @@
           "action_timeout": 180,
           "continue_on_failure": false,
           "display_name": "Convert sighting data to usable text for messaging",
-          "script": "import sys,json\n\n# Get and parse the sighting data\nsightings = json.loads(sys.argv[1])\n\n# Placeholders for output\nsightingCounts = {}\nmoduleNames = []\ntargets = []\n\n# Loop through each sighting\nfor sighting in sightings:\n\t# If there aren't any targets, initialize that array index to an empty list\n\tif not \"targets\" in sighting:\n\t\tsighting[\"targets\"] = []\n\t\t\n\t# Loop through each target\n\ttargetCount = 0\n\tfor target in sighting[\"targets\"]:\n\t\t# Remove the observed time (so two of the same target aren't considered different)\n\t\tdel target[\"observed_time\"]\n\t\t\n\t\t# Add this target to our master list if it's not already in the list (and count it)\n\t\tif not target in targets:\n\t\t\ttargetCount += 1\n\t\t\ttargets.append(target)\n\t\n\t# Is this module already in our count array?\n\tif sighting[\"module_name\"] in sightingCounts.keys():\n\t\t# Yes, so increment the counts\n\t\tsightingCounts[sighting[\"module_name\"]][\"count\"] += 1\n\t\tsightingCounts[sighting[\"module_name\"]][\"targets\"] += targetCount\n\telse:\n\t\t# No, so add it and its counts\n\t\tsightingCounts[sighting[\"module_name\"]] = {\n\t\t\t\"count\": 1,\n\t\t\t\"targets\": targetCount\n\t\t}\n\t\tmoduleNames.append(sighting[\"module_name\"])\n\n# Placeholders for output\nmarkdownSummary = \"\"\nmarkdownTruncated = False\n\n# Were there any sightings to begin with?\nif len(sightings) == 0:\n\tmarkdownSummary = \"* No sightings or targets were found\"\nelse:\n\t# Loop through the sighting counts\n\tfor module in moduleNames:\n\t\t# Make sure the markdown summary (for Threat Response and Webex) isn't already too long\n\t\tif len(markdownSummary.encode(\"utf-8\")) \u003e 4000 and not markdownTruncated:\n\t\t\t# It's getting too long, so add a message indicating that the text was truncated\n\t\t\tmarkdownSummary = markdownSummary + \"\\n\\n Additional information was available but truncated due to message length\"\n\t\t\tmarkdownTruncated = True\n\t\telif not markdownTruncated:\n\t\t\t# The message isn't too long, so append this module\n\t\t\tmarkdownSummary = markdownSummary + (\"\\n\" if len(markdownSummary) \u003e 0 else \"\") + \"* Module **\" + module + \"** returned **\" + str(sightingCounts[module][\"count\"]) + \" sightings** with a total of **\" + str(sightingCounts[module][\"targets\"]) + \" targets**\"",
+          "script": "import sys,json\n# Get and parse the sighting data\nsightings = json.loads(sys.argv[1])\n# Placeholders for output\nsightingCounts = {}\nmoduleNames = []\ntargets = []\n# Loop through each sighting\nfor sighting in sightings:\n\t# If there aren't any targets, initialize that array index to an empty list\n\tif not \"targets\" in sighting:\n\t\tsighting[\"targets\"] = []\n\t\t\n\t# Loop through each target\n\ttargetCount = 0\n\tfor target in sighting[\"targets\"]:\n\t\t# Remove the observed time (so two of the same target aren't considered different)\n\t\tdel target[\"observed_time\"]\n\t\t\n\t\t# Add this target to our master list if it's not already in the list (and count it)\n\t\tif not target in targets:\n\t\t\ttargetCount += 1\n\t\t\ttargets.append(target)\n\t\n\t# Is this module already in our count array?\n\tif sighting[\"module_name\"] in sightingCounts.keys():\n\t\t# Yes, so increment the counts\n\t\tsightingCounts[sighting[\"module_name\"]][\"count\"] += 1\n\t\tsightingCounts[sighting[\"module_name\"]][\"targets\"] += targetCount\n\telse:\n\t\t# No, so add it and its counts\n\t\tsightingCounts[sighting[\"module_name\"]] = {\n\t\t\t\"count\": 1,\n\t\t\t\"targets\": targetCount\n\t\t}\n\t\tmoduleNames.append(sighting[\"module_name\"])\n# Placeholders for output\nmarkdownSummary = \"\"\nmarkdownTruncated = False\n# Were there any sightings to begin with?\nif len(sightings) == 0:\n\tmarkdownSummary = \"\u003ch2\u003eNo sightings or targets were found\u003c/h2\u003e\"\nelse:\n    markdownSummary += \"\u003cul\u003e\"\n\t# Loop through the sighting counts\n\tfor module in moduleNames:\n\t\t# Make sure the markdown summary (for Threat Response and Webex) isn't already too long\n\t\tif len(markdownSummary.encode(\"utf-8\")) \u003e 4000 and not markdownTruncated:\n\t\t\t# It's getting too long, so add a message indicating that the text was truncated\n\t\t\tmarkdownSummary += \"\u003ch2\u003eAdditional information was available but truncated due to message length\u003c/h2\u003e\"\n\t\t\tmarkdownTruncated = True\n\t\telif not markdownTruncated:\n\t\t\t# The message isn't too long, so append this module\n\t\t\tmarkdownSummary += \"\u003cli\u003e\u003ch2\u003eModule \" + module + \"\u003c/h2\u003e returned \" + str(sightingCounts[module][\"count\"]) + \" sightings** with a total of **\" + str(sightingCounts[module][\"targets\"]) + \" targets\u003c/li\u003e\"\n    markdownSummary += \"\u003c/ul\u003e\"",
           "script_arguments": [
             "$workflow.definition_workflow_01NUYL6FWETYZ2hrRI6KYEkmH90Pyr9JSYD.local.variable_workflow_01NUYL6FN32BJ6yQ6M7hDkeoxmw1kONFZrU$"
           ],
@@ -1804,6 +1818,115 @@
                     ]
                   }
                 ]
+              },
+              {
+                "unique_name": "definition_activity_01OJL5TRPJXFH7S7ioBUX0n3Agrf1borsEM",
+                "name": "Condition Block",
+                "title": "Notify via Email",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Notify via Email",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01OJL5UNHEYQH3c0QcsHCGSNIhjzNUVR2sr",
+                    "name": "Condition Branch",
+                    "title": "Email Address Provided?",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$workflow.definition_workflow_01NUYL6FWETYZ2hrRI6KYEkmH90Pyr9JSYD.local.variable_workflow_01OJL4QMQV8G93cRsCRLyMs7JmidGxQ9XcF$",
+                        "operator": "ne",
+                        "right_operand": ""
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "Email Address Provided?",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01O2H0FX51M6Q77SdCd0C0qySCzULZhuczO",
+                        "name": "Send Email",
+                        "title": "Send Notification Email",
+                        "type": "email.smtp_send_email",
+                        "base_type": "activity",
+                        "properties": {
+                          "action_timeout": 180,
+                          "body": "$activity.definition_activity_01NUYM1M8NE264qnRwAGkkcNtr8TBbLid6Y.output.script_queries.markdownSummary$",
+                          "continue_if_one_address_valid": false,
+                          "continue_on_failure": false,
+                          "display_name": "Send Notification Email",
+                          "from": "$trigger.triggerevent_01NUZ6D4USG5J6xnvN1SXCNhmziawZUglnF.output.to$",
+                          "runtime_user": {
+                            "override_target_runtime_user": false,
+                            "target_default": true
+                          },
+                          "skip_execution": false,
+                          "subject": "An Automatic Threat Email",
+                          "target": {
+                            "override_workflow_target": true,
+                            "target_id": "definition_target_01PFYVX1LQLBW0T6vaZkqa43JXqmV4cpDGP"
+                          },
+                          "to": "$workflow.definition_workflow_01NUYL6FWETYZ2hrRI6KYEkmH90Pyr9JSYD.local.variable_workflow_01OJL4QMQV8G93cRsCRLyMs7JmidGxQ9XcF$"
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  },
+                  {
+                    "unique_name": "definition_activity_01Q23IYVCPRCK29d5V7hVKx2n29YQkapkxM",
+                    "name": "Condition Branch",
+                    "title": "No notification email present",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$workflow.definition_workflow_01NUYL6FWETYZ2hrRI6KYEkmH90Pyr9JSYD.local.variable_workflow_01OJL4QMQV8G93cRsCRLyMs7JmidGxQ9XcF$",
+                        "operator": "nmw",
+                        "right_operand": "*@*"
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "No notification email present",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01Q23JGYXMSMU4e6bx7cl7YZhzLz1MyxKZ2",
+                        "name": "Send Email",
+                        "title": "Send Notification Email",
+                        "type": "email.smtp_send_email",
+                        "base_type": "activity",
+                        "properties": {
+                          "action_timeout": 180,
+                          "body": "$activity.definition_activity_01NUYM1M8NE264qnRwAGkkcNtr8TBbLid6Y.output.script_queries.markdownSummary$",
+                          "continue_if_one_address_valid": false,
+                          "continue_on_failure": false,
+                          "display_name": "Send Notification Email",
+                          "from": "$trigger.triggerevent_01NUZ6D4USG5J6xnvN1SXCNhmziawZUglnF.output.to$",
+                          "runtime_user": {
+                            "override_target_runtime_user": false,
+                            "target_default": true
+                          },
+                          "skip_execution": false,
+                          "subject": "An Automatic Threat Email",
+                          "target": {
+                            "override_workflow_target": true,
+                            "target_id": "definition_target_01PFYVX1LQLBW0T6vaZkqa43JXqmV4cpDGP"
+                          },
+                          "to": "$trigger.triggerevent_01NUZ6D4USG5J6xnvN1SXCNhmziawZUglnF.output.sender$"
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           },
@@ -1898,6 +2021,115 @@
                             "object_type": "definition_activity"
                           }
                         ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01Q23KYZ6FBWP1UtsHJGlck42iXASx2ekOB",
+                "name": "Condition Block",
+                "title": "Notify via Email",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Notify via Email",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01Q23KZ2IYIS07VhLQiPetpMTV3EgLoE1hC",
+                    "name": "Condition Branch",
+                    "title": "Email Address Provided?",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$workflow.definition_workflow_01NUYL6FWETYZ2hrRI6KYEkmH90Pyr9JSYD.local.variable_workflow_01OJL4QMQV8G93cRsCRLyMs7JmidGxQ9XcF$",
+                        "operator": "ne",
+                        "right_operand": ""
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "Email Address Provided?",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01Q23KZ392UWG4qXM8mNXrauaKPDSxfWLlo",
+                        "name": "Send Email",
+                        "title": "Send Notification Email",
+                        "type": "email.smtp_send_email",
+                        "base_type": "activity",
+                        "properties": {
+                          "action_timeout": 180,
+                          "body": "$activity.definition_activity_01NUYM1M8NE264qnRwAGkkcNtr8TBbLid6Y.output.script_queries.markdownSummary$",
+                          "continue_if_one_address_valid": false,
+                          "continue_on_failure": false,
+                          "display_name": "Send Notification Email",
+                          "from": "$trigger.triggerevent_01NUZ6D4USG5J6xnvN1SXCNhmziawZUglnF.output.to$",
+                          "runtime_user": {
+                            "override_target_runtime_user": false,
+                            "target_default": true
+                          },
+                          "skip_execution": false,
+                          "subject": "An Automatic Threat Email",
+                          "target": {
+                            "override_workflow_target": true,
+                            "target_id": "definition_target_01PFYVX1LQLBW0T6vaZkqa43JXqmV4cpDGP"
+                          },
+                          "to": "$workflow.definition_workflow_01NUYL6FWETYZ2hrRI6KYEkmH90Pyr9JSYD.local.variable_workflow_01OJL4QMQV8G93cRsCRLyMs7JmidGxQ9XcF$"
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  },
+                  {
+                    "unique_name": "definition_activity_01Q23KZ6ER1UJ2MasNgdUy6Ft6FCfN5pBFg",
+                    "name": "Condition Branch",
+                    "title": "No notification email present",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$workflow.definition_workflow_01NUYL6FWETYZ2hrRI6KYEkmH90Pyr9JSYD.local.variable_workflow_01OJL4QMQV8G93cRsCRLyMs7JmidGxQ9XcF$",
+                        "operator": "nmw",
+                        "right_operand": "*@*"
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "No notification email present",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01Q23KZ7629124eqvDBpAA65RhM52myxKjh",
+                        "name": "Send Email",
+                        "title": "Send Notification Email",
+                        "type": "email.smtp_send_email",
+                        "base_type": "activity",
+                        "properties": {
+                          "action_timeout": 180,
+                          "body": "$activity.definition_activity_01NUYM1M8NE264qnRwAGkkcNtr8TBbLid6Y.output.script_queries.markdownSummary$",
+                          "continue_if_one_address_valid": false,
+                          "continue_on_failure": false,
+                          "display_name": "Send Notification Email",
+                          "from": "$trigger.triggerevent_01NUZ6D4USG5J6xnvN1SXCNhmziawZUglnF.output.to$",
+                          "runtime_user": {
+                            "override_target_runtime_user": false,
+                            "target_default": true
+                          },
+                          "skip_execution": false,
+                          "subject": "An Automatic Threat Email",
+                          "target": {
+                            "override_workflow_target": true,
+                            "target_id": "definition_target_01PFYVX1LQLBW0T6vaZkqa43JXqmV4cpDGP"
+                          },
+                          "to": "$trigger.triggerevent_01NUZ6D4USG5J6xnvN1SXCNhmziawZUglnF.output.sender$"
+                        },
+                        "object_type": "definition_activity"
                       }
                     ]
                   }
@@ -2002,6 +2234,22 @@
         "server": "imap.gmail.com",
         "tls_enabled": true
       }
+    },
+    "definition_target_01PFYVX1LQLBW0T6vaZkqa43JXqmV4cpDGP": {
+      "unique_name": "definition_target_01PFYVX1LQLBW0T6vaZkqa43JXqmV4cpDGP",
+      "name": "Threat-Email-Account",
+      "title": "Threat-Email-Account",
+      "type": "email.smtp_endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "default_runtime_user_id": "definition_runtime_user_01NUZ405NH8802sFN5mlP34bi9SDRnCvJla",
+        "display_name": "Threat-Email-Account",
+        "no_runtime_user": false,
+        "port": 587,
+        "protocol": "SMTP",
+        "server": "smtp.gmail.com"
+      }
     }
   },
   "runtime_users": {
@@ -2021,12 +2269,12 @@
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01KXGKZ0JA96P0p7omD4IdS6zKdw5ECiofU",
-    "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU",
-    "definition_workflow_01KXGQWLMIDXG563x6DBOvwjfxpH8JrkaRW",
-    "definition_workflow_01KVOGF574Y291CRwQLNB1TtzEHDNwyUx7O",
-    "definition_workflow_01NSDIH7JZJ9Q7h777I4Pg4xqtt18BC4slB",
     "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss",
+    "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU",
+    "definition_workflow_01KVOGF574Y291CRwQLNB1TtzEHDNwyUx7O",
+    "definition_workflow_01KXGKZ0JA96P0p7omD4IdS6zKdw5ECiofU",
+    "definition_workflow_01NSDIH7JZJ9Q7h777I4Pg4xqtt18BC4slB",
+    "definition_workflow_01KXGQWLMIDXG563x6DBOvwjfxpH8JrkaRW",
     "definition_workflow_01LFCW7C2Q1BU6Szjo7JqBWHWPmevmW7uIn"
   ]
 }
