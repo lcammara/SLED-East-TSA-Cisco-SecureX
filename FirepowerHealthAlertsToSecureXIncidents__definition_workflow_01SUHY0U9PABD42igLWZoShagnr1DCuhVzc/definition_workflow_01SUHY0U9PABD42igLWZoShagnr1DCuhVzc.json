@@ -53,7 +53,8 @@
             "target_id": "definition_target_01S5QTBQDZR5F5U9RP96d0Pg4yUKMssu4Uy",
             "target_type": "web-service.endpoint"
           },
-          "workflow_id": "definition_workflow_01PP76OBLMFFT4g43eU1MrFz5S7BxbqRzOk"
+          "workflow_id": "definition_workflow_01PP76OBLMFFT4g43eU1MrFz5S7BxbqRzOk",
+          "workflow_name": "Secure Firewall - Get Access Token"
         },
         "object_type": "definition_activity"
       },
@@ -67,6 +68,7 @@
           "accept": "application/json",
           "action_timeout": 180,
           "allow_auto_redirect": true,
+          "allow_headers_redirect": false,
           "content_type": "application/json",
           "continue_on_error_status_code": false,
           "continue_on_failure": false,
@@ -156,7 +158,8 @@
             "target_id": "definition_target_01K5COTP8CXMN0JVKBa9RTBZek66BtyqWfh",
             "target_type": "web-service.endpoint"
           },
-          "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
+          "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+          "workflow_name": "Threat Response - Generate Access Token"
         },
         "object_type": "definition_activity"
       },
@@ -559,7 +562,8 @@
                                 "target_id": "definition_target_01G3YNMLJIV9C5nhzguKtYGpj95Fdj2e5lW",
                                 "target_type": "web-service.endpoint"
                               },
-                              "workflow_id": "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r"
+                              "workflow_id": "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r",
+                              "workflow_name": "Threat Response - Create Incident"
                             },
                             "object_type": "definition_activity"
                           },
@@ -596,42 +600,6 @@
     "categories": [
       "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
     ]
-  },
-  "triggers": {
-    "triggerschedule_01U53F95RPEN31LslWtY4sPuDPhZMnWXmBm": {
-      "workflow_id": "definition_workflow_01SUHY0U9PABD42igLWZoShagnr1DCuhVzc",
-      "name": "Run Health Alert Check each Hour",
-      "title": "",
-      "lowercase_name": "schedule.run_health_alert_check_each_hour",
-      "type": "schedule",
-      "base_type": "trigger",
-      "ref_id": "schedule_01U53BZ9HCVRJ2Z8Z03fzg1BKXWlEV4TCNh",
-      "version": "",
-      "disabled": false,
-      "unique_name": "triggerschedule_01U53F95RPEN31LslWtY4sPuDPhZMnWXmBm",
-      "object_type": "triggerschedule"
-    }
-  },
-  "schedules": {
-    "schedule_01U53BZ9HCVRJ2Z8Z03fzg1BKXWlEV4TCNh": {
-      "unique_name": "schedule_01U53BZ9HCVRJ2Z8Z03fzg1BKXWlEV4TCNh",
-      "name": "Fetch FMC Health Alerts",
-      "description": "Schedule to Fetch FMC Red and Yellow Health Alerts and post to SecureX Incidents",
-      "type": "basic.schedule",
-      "base_type": "schedule",
-      "properties": {
-        "calendar": "calendar_recurring_1BMfMWvgiDhSjBQ7hTSyvz3NyVZ",
-        "timezone": "US/Eastern",
-        "starttime": "00:00",
-        "interval_hours": 1,
-        "interval_minutes": 0,
-        "number_of_times": 24,
-        "display_name": "Fetch FMC Health Alerts",
-        "description": "Schedule to Fetch FMC Red and Yellow Health Alerts and post to SecureX Incidents"
-      },
-      "version": "1.0.0",
-      "object_type": "schedule"
-    }
   },
   "targets": {
     "definition_target_01G3YNMLJIV9C5nhzguKtYGpj95Fdj2e5lW": {
@@ -699,9 +667,9 @@
       "base_type": "runtime_user",
       "object_type": "definition_runtime_user",
       "properties": {
-        "auth_option": "*****",
+        "auth_option": "Basic",
         "basic_password": "*****",
-        "basic_username": "*****",
+        "basic_username": "client-efd7fb36-19e4-4195-b63e-9504b9b6c71f",
         "display_name": "CTR_Credentials"
       }
     },
@@ -713,9 +681,9 @@
       "base_type": "runtime_user",
       "object_type": "definition_runtime_user",
       "properties": {
-        "auth_option": "*****",
+        "auth_option": "Basic",
         "basic_password": "*****",
-        "basic_username": "*****",
+        "basic_username": "admin2",
         "display_name": "FMC"
       }
     }
@@ -748,5 +716,10 @@
       "unique_name": "remote_meta_01SZDMYD52QI43U0Awm70AhT1Fa1w05Tlge",
       "object_type": "remote_meta"
     }
-  }
+  },
+  "dependent_workflows": [
+    "definition_workflow_01PP76OBLMFFT4g43eU1MrFz5S7BxbqRzOk",
+    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+    "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r"
+  ]
 }
