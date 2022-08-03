@@ -601,6 +601,42 @@
       "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
     ]
   },
+  "triggers": {
+    "triggerschedule_01YZJA3T0WTWQ6eoe85V8Vd90QEC8KY2ufK": {
+      "workflow_id": "definition_workflow_01SUHY0U9PABD42igLWZoShagnr1DCuhVzc",
+      "name": "Run Daily",
+      "title": "",
+      "lowercase_name": "schedule.run_daily",
+      "type": "schedule",
+      "base_type": "trigger",
+      "ref_id": "schedule_01U53BZ9HCVRJ2Z8Z03fzg1BKXWlEV4TCNh",
+      "version": "1.0.0",
+      "disabled": false,
+      "unique_name": "triggerschedule_01YZJA3T0WTWQ6eoe85V8Vd90QEC8KY2ufK",
+      "object_type": "triggerschedule"
+    }
+  },
+  "schedules": {
+    "schedule_01U53BZ9HCVRJ2Z8Z03fzg1BKXWlEV4TCNh": {
+      "unique_name": "schedule_01U53BZ9HCVRJ2Z8Z03fzg1BKXWlEV4TCNh",
+      "name": "Fetch FMC Health Alerts",
+      "description": "Schedule to Fetch FMC Red and Yellow Health Alerts and post to SecureX Incidents",
+      "type": "basic.schedule",
+      "base_type": "schedule",
+      "properties": {
+        "calendar": "calendar_recurring_1BMfMWvgiDhSjBQ7hTSyvz3NyVZ",
+        "timezone": "US/Eastern",
+        "starttime": "00:00",
+        "interval_hours": 0,
+        "interval_minutes": 30,
+        "number_of_times": 48,
+        "display_name": "Fetch FMC Health Alerts",
+        "description": "Schedule to Fetch FMC Red and Yellow Health Alerts and post to SecureX Incidents"
+      },
+      "version": "1.0.0",
+      "object_type": "schedule"
+    }
+  },
   "targets": {
     "definition_target_01G3YNMLJIV9C5nhzguKtYGpj95Fdj2e5lW": {
       "unique_name": "definition_target_01G3YNMLJIV9C5nhzguKtYGpj95Fdj2e5lW",
