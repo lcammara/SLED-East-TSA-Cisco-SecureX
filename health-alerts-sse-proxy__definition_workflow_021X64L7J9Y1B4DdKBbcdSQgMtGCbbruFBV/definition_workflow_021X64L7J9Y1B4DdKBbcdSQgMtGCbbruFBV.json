@@ -1,0 +1,742 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_021X64L7J9Y1B4DdKBbcdSQgMtGCbbruFBV",
+    "name": "Health Alerts to SecureX Incidents using SSE Proxy API",
+    "title": "Health Alerts to SecureX Incidents using SSE Proxy API",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Device",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_021X64L7TNNMH18cO0TV5yp4nfoiz2uGpa1",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This Workflow receives FMC Health alerts from FMC and sends the to the SecureX Ribbon via Security Services Exchange Proxy API\n\nFMC Device - on prem FMC must be available from public Internet\nFMC - account keys to access FMC API\n",
+      "display_name": "Health Alerts to SecureX Incidents using SSE Proxy API",
+      "runtime_user": {
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": true,
+        "target_group": {
+          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "run_on_all_targets": false,
+          "selected_target_types": [
+            "web-service.endpoint"
+          ],
+          "use_criteria": {
+            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+            "conditions": [
+              {
+                "operator": "eq",
+                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                "right_operand": "FMC Target"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_021X64LCTZR8M1iAQx6Ohg6pvJOpFhTMgXL",
+        "name": "Secure Firewall - Get Access Token",
+        "title": "Secure Firewall - Get Access Token",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": true,
+          "display_name": "Secure Firewall - Get Access Token",
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target_group": true
+          },
+          "workflow_id": "definition_workflow_01PP76OBLMFFT4g43eU1MrFz5S7BxbqRzOk",
+          "workflow_name": "Secure Firewall - Get Access Token"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_021X64LEIONLI69Kx0oxKYASh90uzJmhrRf",
+        "name": "HTTP Request",
+        "title": "Get FMC Health Alerts",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "allow_headers_redirect": false,
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "X-Auth-Access-Token",
+              "value": "$activity.definition_activity_021X64LCTZR8M1iAQx6Ohg6pvJOpFhTMgXL.output.variable_workflow_01PP76OBECVZD3O8cyvubv6Cb2mfX5HASQ2$"
+            }
+          ],
+          "display_name": "Get FMC Health Alerts",
+          "method": "GET",
+          "relative_url": "/fmc_config/v1/domain/$activity.definition_activity_021X64LCTZR8M1iAQx6Ohg6pvJOpFhTMgXL.output.variable_workflow_01PP76OBECP484xngkIgAlf2Yr0SrpVXhYx$/health/alerts?limit=100\u0026filter=status:green,red,yellow;",
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target_group": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_021X64LGOQRNT3NQ9z8Yrr1fhCeRsZYrjYS",
+        "name": "Read Table from JSON",
+        "title": "Read Table from JSON",
+        "type": "corejava.read_table_from_json",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Read Table from JSON",
+          "input_json": "$activity.definition_activity_021X64LEIONLI69Kx0oxKYASh90uzJmhrRf.output.response_body$",
+          "jsonpath_query": "$.items[*]",
+          "persist_output": false,
+          "populate_columns": false,
+          "skip_execution": false,
+          "table_columns": [
+            {
+              "column_name": "deviceUUID",
+              "column_type": "string"
+            },
+            {
+              "column_name": "moduleID",
+              "column_type": "string"
+            },
+            {
+              "column_name": "moduleUUID",
+              "column_type": "string"
+            },
+            {
+              "column_name": "timestamp",
+              "column_type": "string"
+            },
+            {
+              "column_name": "status",
+              "column_type": "string"
+            },
+            {
+              "column_name": "type",
+              "column_type": "string"
+            },
+            {
+              "column_name": "details",
+              "column_type": "string"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_021X64LIS4LGA203A3gpA290JkssWpkkbCk",
+        "name": "Threat Response - Generate Access Token",
+        "title": "Threat Response - Generate Access Token",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Threat Response - Generate Access Token",
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01K5COTP8CXMN0JVKBa9RTBZek66BtyqWfh",
+            "target_type": "web-service.endpoint"
+          },
+          "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+          "workflow_name": "Threat Response - Generate Access Token"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU",
+        "name": "For Each",
+        "title": "For Each",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": true,
+          "display_name": "For Each",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_021X64LGOQRNT3NQ9z8Yrr1fhCeRsZYrjYS.output.read_table_from_json$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_021X64LLRIO4J6Ks9t72WYSzbQesi19ktQC",
+            "name": "Condition Block",
+            "title": "If Alert Status is ",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "If Alert Status is ",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_021X64LMPBC0G0MkZ5mcpcmpE1BvOSJLLHk",
+                "name": "Condition Branch",
+                "title": "RED or YELLOW",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": {
+                      "left_operand": {
+                        "left_operand": "$activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].status$",
+                        "operator": "eqi",
+                        "right_operand": "RED"
+                      },
+                      "operator": "or",
+                      "right_operand": {
+                        "left_operand": "$activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].status$",
+                        "operator": "eqi",
+                        "right_operand": "YELLOW"
+                      }
+                    },
+                    "operator": "or",
+                    "right_operand": {
+                      "left_operand": "$activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].status$",
+                      "operator": "eqi",
+                      "right_operand": "GREEN-"
+                    }
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "RED or YELLOW",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_021X64LO0UH1P5xvMdSRQTc4xy4shJcrbyA",
+                    "name": "HTTP Request",
+                    "title": "Check for New Existing Incident",
+                    "type": "web-service.http_request",
+                    "base_type": "activity",
+                    "properties": {
+                      "accept": "application/json",
+                      "action_timeout": 180,
+                      "allow_auto_redirect": true,
+                      "content_type": "application/json",
+                      "continue_on_error_status_code": false,
+                      "continue_on_failure": false,
+                      "custom_headers": [
+                        {
+                          "name": "Authorization",
+                          "value": "Bearer $activity.definition_activity_021X64LIS4LGA203A3gpA290JkssWpkkbCk.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
+                        }
+                      ],
+                      "display_name": "Check for New Existing Incident",
+                      "method": "GET",
+                      "relative_url": "/ctia/incident/search?status=new\u0026query=title:\"FMC Health Alert: $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].moduleID$\"",
+                      "runtime_user": {
+                        "target_default": true
+                      },
+                      "skip_execution": false,
+                      "target": {
+                        "override_workflow_target": true,
+                        "target_id": "definition_target_01G3YNMLJIV9C5nhzguKtYGpj95Fdj2e5lW"
+                      }
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_021X64LPG7FD73moKbO2YtWPJxdLxQH3WI0",
+                    "name": "JSONPath Query",
+                    "title": "Parse Existing Incidents",
+                    "type": "corejava.jsonpathquery",
+                    "base_type": "activity",
+                    "properties": {
+                      "action_timeout": 180,
+                      "continue_on_failure": true,
+                      "display_name": "Parse Existing Incidents",
+                      "input_json": "$activity.definition_activity_021X64LO0UH1P5xvMdSRQTc4xy4shJcrbyA.output.response_body$",
+                      "jsonpath_queries": [
+                        {
+                          "jsonpath_query": "$.[0].id",
+                          "jsonpath_query_name": "id",
+                          "jsonpath_query_type": "string"
+                        },
+                        {
+                          "jsonpath_query": "$.[0].description",
+                          "jsonpath_query_name": "description",
+                          "jsonpath_query_type": "string"
+                        }
+                      ],
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_021X64LQFKWEN4UieTLtqhxKW14R0IjI2OG",
+                    "name": "Condition Block",
+                    "title": "If Incident",
+                    "type": "logic.if_else",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "If Incident",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "blocks": [
+                      {
+                        "unique_name": "definition_activity_021X64LRA39464hpPY48lu2rSlaTFQVVoXa",
+                        "name": "Condition Branch",
+                        "title": "Exists",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                          "condition": {
+                            "left_operand": "$activity.definition_activity_021X64LPG7FD73moKbO2YtWPJxdLxQH3WI0.output.succeeded$",
+                            "operator": "eq",
+                            "right_operand": true
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "Exists",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                          {
+                            "unique_name": "definition_activity_021X64LSST5ML7LqA0BmAh4ZD8Bboj5UCcx",
+                            "name": "Split String",
+                            "title": "Split String",
+                            "type": "core.splitstring",
+                            "base_type": "activity",
+                            "properties": {
+                              "boundaries": [
+                                {
+                                  "boundary": "/"
+                                }
+                              ],
+                              "continue_on_failure": false,
+                              "display_name": "Split String",
+                              "input_string": "$activity.definition_activity_021X64LPG7FD73moKbO2YtWPJxdLxQH3WI0.output.jsonpath_queries.id$",
+                              "skip_execution": false
+                            },
+                            "object_type": "definition_activity"
+                          },
+                          {
+                            "unique_name": "definition_activity_021X64LTYWJHR6cYgBvh7h98AkQ0bhn8foK",
+                            "name": "HTTP Request",
+                            "title": "Update Existing Incident",
+                            "type": "web-service.http_request",
+                            "base_type": "activity",
+                            "properties": {
+                              "accept": "application/json",
+                              "action_timeout": 180,
+                              "allow_auto_redirect": true,
+                              "allow_headers_redirect": false,
+                              "body": "{\n\"description\": \"$activity.definition_activity_021X64LPG7FD73moKbO2YtWPJxdLxQH3WI0.output.jsonpath_queries.description$ \u003cbr /\u003e $activity.definition_activity_021X64LPG7FD73moKbO2YtWPJxdLxQH3WI0.output.start_time$ - $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].details$\"\n} ",
+                              "content_type": "application/json",
+                              "continue_on_error_status_code": false,
+                              "continue_on_failure": false,
+                              "custom_headers": [
+                                {
+                                  "name": "Authorization",
+                                  "value": "Bearer $activity.definition_activity_021X64LIS4LGA203A3gpA290JkssWpkkbCk.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
+                                }
+                              ],
+                              "display_name": "Update Existing Incident",
+                              "method": "PATCH",
+                              "relative_url": "/ctia/incident/$activity.definition_activity_021X64LSST5ML7LqA0BmAh4ZD8Bboj5UCcx.output.parts[-1]$",
+                              "runtime_user": {
+                                "target_default": true
+                              },
+                              "skip_execution": false,
+                              "target": {
+                                "override_workflow_target": true,
+                                "target_id": "definition_target_01G3YNMLJIV9C5nhzguKtYGpj95Fdj2e5lW"
+                              }
+                            },
+                            "object_type": "definition_activity"
+                          }
+                        ]
+                      },
+                      {
+                        "unique_name": "definition_activity_021X64LVRLSFA0DoXyXKika6uryKWNWEimX",
+                        "name": "Condition Branch",
+                        "title": "Does not Exist",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                          "condition": {
+                            "left_operand": "$activity.definition_activity_021X64LPG7FD73moKbO2YtWPJxdLxQH3WI0.output.succeeded$",
+                            "operator": "eq",
+                            "right_operand": false
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "Does not Exist",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                          {
+                            "unique_name": "definition_activity_021X64LX24BEF3IAu89jQk91h3RtJcNWU97",
+                            "name": "HTTP Request",
+                            "title": "Get Device from DeviceUUID",
+                            "type": "web-service.http_request",
+                            "base_type": "activity",
+                            "properties": {
+                              "accept": "application/json",
+                              "action_timeout": 180,
+                              "allow_auto_redirect": true,
+                              "allow_headers_redirect": false,
+                              "content_type": "application/json",
+                              "continue_on_error_status_code": false,
+                              "continue_on_failure": true,
+                              "custom_headers": [
+                                {
+                                  "name": "X-Auth-Access-Token",
+                                  "value": "$activity.definition_activity_021X64LCTZR8M1iAQx6Ohg6pvJOpFhTMgXL.output.variable_workflow_01PP76OBECVZD3O8cyvubv6Cb2mfX5HASQ2$"
+                                }
+                              ],
+                              "display_name": "Get Device from DeviceUUID",
+                              "method": "GET",
+                              "relative_url": "fmc_config/v1/domain/$activity.definition_activity_021X64LCTZR8M1iAQx6Ohg6pvJOpFhTMgXL.output.variable_workflow_01PP76OBECP484xngkIgAlf2Yr0SrpVXhYx$/devices/devicerecords/$activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].deviceUUID$",
+                              "runtime_user": {
+                                "target_default": true
+                              },
+                              "skip_execution": false,
+                              "target": {
+                                "use_workflow_target_group": true
+                              }
+                            },
+                            "object_type": "definition_activity"
+                          },
+                          {
+                            "unique_name": "definition_activity_021X64LYP50GO30UJkhiSlbxAvEUkJm0oOi",
+                            "name": "JSONPath Query",
+                            "title": "Get Device Name",
+                            "type": "corejava.jsonpathquery",
+                            "base_type": "activity",
+                            "properties": {
+                              "action_timeout": 180,
+                              "continue_on_failure": true,
+                              "display_name": "Get Device Name",
+                              "input_json": "$activity.definition_activity_021X64LX24BEF3IAu89jQk91h3RtJcNWU97.output.response_body$",
+                              "jsonpath_queries": [
+                                {
+                                  "jsonpath_query": "$.name",
+                                  "jsonpath_query_name": "name",
+                                  "jsonpath_query_type": "string"
+                                }
+                              ],
+                              "skip_execution": false
+                            },
+                            "object_type": "definition_activity"
+                          },
+                          {
+                            "unique_name": "definition_activity_021X64LZOTQYL1ygic2A1diGVEpSh4tsDGJ",
+                            "name": "Condition Block",
+                            "title": "Condition Block",
+                            "type": "logic.if_else",
+                            "base_type": "activity",
+                            "properties": {
+                              "continue_on_failure": false,
+                              "display_name": "Condition Block",
+                              "skip_execution": false
+                            },
+                            "object_type": "definition_activity",
+                            "blocks": [
+                              {
+                                "unique_name": "definition_activity_021X64M0IK4NO4eFKiPtoyR2YoGhLCb99k6",
+                                "name": "Condition Branch",
+                                "title": "Device Lookup is FMC",
+                                "type": "logic.condition_block",
+                                "base_type": "activity",
+                                "properties": {
+                                  "condition": {
+                                    "left_operand": "$activity.definition_activity_021X64LYP50GO30UJkhiSlbxAvEUkJm0oOi.output.succeeded$",
+                                    "operator": "eq",
+                                    "right_operand": false
+                                  },
+                                  "continue_on_failure": false,
+                                  "display_name": "Device Lookup is FMC",
+                                  "skip_execution": false
+                                },
+                                "object_type": "definition_activity",
+                                "actions": [
+                                  {
+                                    "unique_name": "definition_activity_021X64M1MNW404xrnxSiIcHFhgAtJVqw6SX",
+                                    "name": "Set Variables",
+                                    "title": "Set Device to FMC",
+                                    "type": "core.set_multiple_variables",
+                                    "base_type": "activity",
+                                    "properties": {
+                                      "continue_on_failure": false,
+                                      "display_name": "Set Device to FMC",
+                                      "skip_execution": false,
+                                      "variables_to_update": [
+                                        {
+                                          "variable_to_update": "$workflow.definition_workflow_021X64L7J9Y1B4DdKBbcdSQgMtGCbbruFBV.local.variable_workflow_021X64L7TNNMH18cO0TV5yp4nfoiz2uGpa1$",
+                                          "variable_value_new": "FMC"
+                                        }
+                                      ]
+                                    },
+                                    "object_type": "definition_activity"
+                                  }
+                                ]
+                              },
+                              {
+                                "unique_name": "definition_activity_021X64M2GS6Z92KxAftrC5Z1nrDeixENcVF",
+                                "name": "Condition Branch",
+                                "title": "Device Lookup is a Firewall",
+                                "type": "logic.condition_block",
+                                "base_type": "activity",
+                                "properties": {
+                                  "condition": {
+                                    "left_operand": "$activity.definition_activity_021X64LYP50GO30UJkhiSlbxAvEUkJm0oOi.output.succeeded$",
+                                    "operator": "eq",
+                                    "right_operand": true
+                                  },
+                                  "continue_on_failure": false,
+                                  "display_name": "Device Lookup is a Firewall",
+                                  "skip_execution": false
+                                },
+                                "object_type": "definition_activity",
+                                "actions": [
+                                  {
+                                    "unique_name": "definition_activity_021X64M3N761N1iQNENWM4WYgetGodtvyol",
+                                    "name": "Set Variables",
+                                    "title": "Set Device to Firewall Name",
+                                    "type": "core.set_multiple_variables",
+                                    "base_type": "activity",
+                                    "properties": {
+                                      "continue_on_failure": false,
+                                      "display_name": "Set Device to Firewall Name",
+                                      "skip_execution": false,
+                                      "variables_to_update": [
+                                        {
+                                          "variable_to_update": "$workflow.definition_workflow_021X64L7J9Y1B4DdKBbcdSQgMtGCbbruFBV.local.variable_workflow_021X64L7TNNMH18cO0TV5yp4nfoiz2uGpa1$",
+                                          "variable_value_new": "$activity.definition_activity_021X64LYP50GO30UJkhiSlbxAvEUkJm0oOi.output.jsonpath_queries.name$"
+                                        }
+                                      ]
+                                    },
+                                    "object_type": "definition_activity"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "unique_name": "definition_activity_021X64M5CMJ5F5E9LZH05DhN4wwxEOs2uKl",
+                            "name": "Threat Response - FMC Create Incident",
+                            "title": "Threat Response - FMC Create Incident",
+                            "type": "workflow.atomic_workflow",
+                            "base_type": "subworkflow",
+                            "properties": {
+                              "continue_on_failure": true,
+                              "display_name": "Threat Response - FMC Create Incident",
+                              "input": {
+                                "variable_workflow_01PP773PC153N1sUPzhFqV9bCbaxsz3yDwH": "$activity.definition_activity_021X64LIS4LGA203A3gpA290JkssWpkkbCk.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
+                                "variable_workflow_01PP773PC19C57fpPyxEFzuX0kP8dAqdVoQ": "FMC Health Alert: $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].moduleID$ \\n Device Name: $workflow.definition_workflow_021X64L7J9Y1B4DdKBbcdSQgMtGCbbruFBV.local.variable_workflow_021X64L7TNNMH18cO0TV5yp4nfoiz2uGpa1$ \\n Device UUID: $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].deviceUUID$ \\n Status: $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].status$ \\n Details: $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].details$",
+                                "variable_workflow_01PP773PC1ALV47FYVyDKQsPCuKzTZwYeyv": "New",
+                                "variable_workflow_01PP773PC1DZZ2rpbgvgD3IRrMsngkGxWkK": "FMC Health Alert: $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].moduleID$",
+                                "variable_workflow_01PP773PC1F547IibuvGX89UFFJE9ZNlHgb": "amber",
+                                "variable_workflow_01PP773PC1G7V6ZMj5IyCTQcEPiVhQm1fYO": "High"
+                              },
+                              "runtime_user": {
+                                "target_default": true
+                              },
+                              "skip_execution": false,
+                              "target": {
+                                "override_workflow_target": true,
+                                "target_id": "definition_target_01G3YNMLJIV9C5nhzguKtYGpj95Fdj2e5lW",
+                                "target_type": "web-service.endpoint"
+                              },
+                              "workflow_id": "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r",
+                              "workflow_name": "Threat Response - Create Incident"
+                            },
+                            "object_type": "definition_activity"
+                          },
+                          {
+                            "unique_name": "definition_activity_021X64M7H4HC02eZ46ImcN209PBeBh22OzY",
+                            "name": "Set Variables",
+                            "title": "Clear device type",
+                            "type": "core.set_multiple_variables",
+                            "base_type": "activity",
+                            "properties": {
+                              "continue_on_failure": false,
+                              "display_name": "Clear device type",
+                              "skip_execution": false,
+                              "variables_to_update": [
+                                {
+                                  "variable_to_update": "$workflow.definition_workflow_021X64L7J9Y1B4DdKBbcdSQgMtGCbbruFBV.local.variable_workflow_021X64L7TNNMH18cO0TV5yp4nfoiz2uGpa1$",
+                                  "variable_value_new": ""
+                                }
+                              ]
+                            },
+                            "object_type": "definition_activity"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "triggers": {
+    "triggerschedule_021Y5URJ2YIO143LVI5yOBGuOJeawgP9KSf": {
+      "workflow_id": "definition_workflow_021X64L7J9Y1B4DdKBbcdSQgMtGCbbruFBV",
+      "name": "Check for Alerts",
+      "title": "",
+      "lowercase_name": "schedule.check_for_alerts",
+      "type": "schedule",
+      "base_type": "trigger",
+      "ref_id": "schedule_01U53BZ9HCVRJ2Z8Z03fzg1BKXWlEV4TCNh",
+      "version": "1.0.0",
+      "disabled": false,
+      "unique_name": "triggerschedule_021Y5URJ2YIO143LVI5yOBGuOJeawgP9KSf",
+      "object_type": "triggerschedule"
+    }
+  },
+  "schedules": {
+    "schedule_01U53BZ9HCVRJ2Z8Z03fzg1BKXWlEV4TCNh": {
+      "unique_name": "schedule_01U53BZ9HCVRJ2Z8Z03fzg1BKXWlEV4TCNh",
+      "name": "Fetch FMC Health Alerts",
+      "description": "Schedule to Fetch FMC Red and Yellow Health Alerts and post to SecureX Incidents",
+      "type": "basic.schedule",
+      "base_type": "schedule",
+      "properties": {
+        "calendar": "calendar_recurring_1BMfMWvgiDhSjBQ7hTSyvz3NyVZ",
+        "timezone": "US/Eastern",
+        "starttime": "00:00",
+        "interval_hours": 12,
+        "interval_minutes": 0,
+        "number_of_times": 2,
+        "display_name": "Fetch FMC Health Alerts",
+        "description": "Schedule to Fetch FMC Red and Yellow Health Alerts and post to SecureX Incidents"
+      },
+      "version": "1.0.0",
+      "object_type": "schedule"
+    }
+  },
+  "targets": {
+    "definition_target_01G3YNMLJIV9C5nhzguKtYGpj95Fdj2e5lW": {
+      "unique_name": "definition_target_01G3YNMLJIV9C5nhzguKtYGpj95Fdj2e5lW",
+      "name": "Private_CTIA_Target",
+      "title": "Private_CTIA_Target",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "description": "Private_CTIA_Target",
+        "disable_certificate_validation": false,
+        "display_name": "Private_CTIA_Target",
+        "host": "private.intel.amp.cisco.com",
+        "no_runtime_user": true,
+        "protocol": "https"
+      }
+    },
+    "definition_target_01K5COTP8CXMN0JVKBa9RTBZek66BtyqWfh": {
+      "unique_name": "definition_target_01K5COTP8CXMN0JVKBa9RTBZek66BtyqWfh",
+      "name": "CTR Target for access token",
+      "title": "CTR Target for access token",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "default_runtime_user_id": "definition_runtime_user_01LL76V5SQRWK4YJYQ8jxXoiz5o1ottQrpo",
+        "description": "CTR_For_Access_Token",
+        "disable_certificate_validation": false,
+        "display_name": "CTR Target for access token",
+        "host": "visibility.amp.cisco.com",
+        "no_runtime_user": false,
+        "path": "/iroh",
+        "protocol": "https"
+      }
+    }
+  },
+  "runtime_users": {
+    "definition_runtime_user_01LL76V5SQRWK4YJYQ8jxXoiz5o1ottQrpo": {
+      "unique_name": "definition_runtime_user_01LL76V5SQRWK4YJYQ8jxXoiz5o1ottQrpo",
+      "name": "CTR_Credentials",
+      "title": "CTR_Credentials",
+      "description": "Account Key for CTR",
+      "type": "runtime_user.web-service_basic_credentials",
+      "base_type": "runtime_user",
+      "object_type": "definition_runtime_user",
+      "properties": {
+        "auth_option": "Basic",
+        "basic_password": "*****",
+        "basic_username": "client-efd7fb36-19e4-4195-b63e-9504b9b6c71f",
+        "display_name": "CTR_Credentials"
+      }
+    }
+  },
+  "target_groups": {
+    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+      "name": "Default TargetGroup",
+      "title": "Default TargetGroup",
+      "type": "generic.target_group",
+      "base_type": "target_group",
+      "version": "1.0.0",
+      "targets": [
+        {
+          "data_target_type": "web-service.endpoint",
+          "view_target_type": "web-service.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "email.smtp_endpoint",
+          "view_target_type": "email.smtp_endpoint",
+          "include_all_targets": true
+        }
+      ],
+      "object_type": "target_group"
+    }
+  },
+  "atomic_workflows": [
+    "definition_workflow_01PP76OBLMFFT4g43eU1MrFz5S7BxbqRzOk",
+    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+    "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r"
+  ],
+  "dependent_workflows": [
+    "definition_workflow_01PP76OBLMFFT4g43eU1MrFz5S7BxbqRzOk",
+    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+    "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r"
+  ]
+}
