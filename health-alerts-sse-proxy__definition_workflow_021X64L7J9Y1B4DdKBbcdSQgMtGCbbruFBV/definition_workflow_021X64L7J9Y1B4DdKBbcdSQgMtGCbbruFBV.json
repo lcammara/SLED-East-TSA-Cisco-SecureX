@@ -179,6 +179,30 @@
         "object_type": "definition_activity"
       },
       {
+        "unique_name": "definition_activity_0243DKIF3M2ZJ3cnbsbdrfd3QbTQyecqGuh",
+        "name": "Get Lookback Timestamp",
+        "title": "Get Lookback Timestamp",
+        "type": "workflow.sub_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Get Lookback Timestamp",
+          "input": {
+            "variable_workflow_0243DDUDJ9ERD0HF3pLMwTy705fTuh69JTP": 7
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "no_target": true
+          },
+          "workflow_id": "definition_workflow_0243DD7MZP9LE2Zb44c9VJnJdUJcG7VT0G6",
+          "workflow_name": "Get Lookback Timestamp"
+        },
+        "object_type": "definition_activity"
+      },
+      {
         "unique_name": "definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU",
         "name": "For Each",
         "title": "For Each",
@@ -249,6 +273,7 @@
                       "accept": "application/json",
                       "action_timeout": 180,
                       "allow_auto_redirect": true,
+                      "allow_headers_redirect": false,
                       "content_type": "application/json",
                       "continue_on_error_status_code": false,
                       "continue_on_failure": false,
@@ -260,7 +285,7 @@
                       ],
                       "display_name": "Check for New Existing Incident",
                       "method": "GET",
-                      "relative_url": "/ctia/incident/search?status=new\u0026query=title:\"FMC Health Alert: $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].moduleID$\"",
+                      "relative_url": "/ctia/incident/search?status=new\u0026query=title:\"FMC Health Alert: $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].moduleID$\"\u0026from=$activity.definition_activity_0243DKIF3M2ZJ3cnbsbdrfd3QbTQyecqGuh.output.variable_workflow_0243DE36LCPB37CxuXriYxhnMDBHahgXf3I$",
                       "runtime_user": {
                         "target_default": true
                       },
@@ -287,12 +312,14 @@
                         {
                           "jsonpath_query": "$.[0].id",
                           "jsonpath_query_name": "id",
-                          "jsonpath_query_type": "string"
+                          "jsonpath_query_type": "string",
+                          "zdate_type_format": "yyyy-MM-dd'T'HH:mm:ssZ"
                         },
                         {
                           "jsonpath_query": "$.[0].description",
                           "jsonpath_query_name": "description",
-                          "jsonpath_query_type": "string"
+                          "jsonpath_query_type": "string",
+                          "zdate_type_format": "yyyy-MM-dd'T'HH:mm:ssZ"
                         }
                       ],
                       "skip_execution": false
@@ -563,7 +590,7 @@
                               "display_name": "Threat Response - FMC Create Incident",
                               "input": {
                                 "variable_workflow_01PP773PC153N1sUPzhFqV9bCbaxsz3yDwH": "$activity.definition_activity_021X64LIS4LGA203A3gpA290JkssWpkkbCk.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
-                                "variable_workflow_01PP773PC19C57fpPyxEFzuX0kP8dAqdVoQ": "FMC Health Alert: $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].moduleID$ \\n Device Name: $workflow.definition_workflow_021X64L7J9Y1B4DdKBbcdSQgMtGCbbruFBV.local.variable_workflow_021X64L7TNNMH18cO0TV5yp4nfoiz2uGpa1$ \\n Device UUID: $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].deviceUUID$ \\n Status: $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].status$ \\n Details: $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].details$",
+                                "variable_workflow_01PP773PC19C57fpPyxEFzuX0kP8dAqdVoQ": "\u003cb\u003eFMC Health Alert: $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].moduleID$  Device Name: $workflow.definition_workflow_021X64L7J9Y1B4DdKBbcdSQgMtGCbbruFBV.local.variable_workflow_021X64L7TNNMH18cO0TV5yp4nfoiz2uGpa1$  Device UUID: $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].deviceUUID$  Status: $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].status$  Details: $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].details$",
                                 "variable_workflow_01PP773PC1ALV47FYVyDKQsPCuKzTZwYeyv": "New",
                                 "variable_workflow_01PP773PC1DZZ2rpbgvgD3IRrMsngkGxWkK": "FMC Health Alert: $activity.definition_activity_021X64LK9NYWH1klnqId4jgkbibigG6vTAU.input.source_array[@].moduleID$",
                                 "variable_workflow_01PP773PC1F547IibuvGX89UFFJE9ZNlHgb": "amber",
@@ -729,6 +756,108 @@
       "object_type": "target_group"
     }
   },
+  "subworkflows": [
+    {
+      "workflow": {
+        "unique_name": "definition_workflow_0243DD7MZP9LE2Zb44c9VJnJdUJcG7VT0G6",
+        "name": "Get Lookback Timestamp",
+        "title": "Get Lookback Timestamp",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": [
+          {
+            "schema_id": "datatype.integer",
+            "properties": {
+              "value": 0,
+              "scope": "input",
+              "name": "Days Back",
+              "type": "datatype.integer",
+              "is_required": false,
+              "is_invisible": false
+            },
+            "unique_name": "variable_workflow_0243DDUDJ9ERD0HF3pLMwTy705fTuh69JTP",
+            "object_type": "variable_workflow"
+          },
+          {
+            "schema_id": "datatype.string",
+            "properties": {
+              "value": "",
+              "scope": "output",
+              "name": "Lookback Timestamp",
+              "type": "datatype.string",
+              "is_required": false,
+              "is_invisible": false
+            },
+            "unique_name": "variable_workflow_0243DE36LCPB37CxuXriYxhnMDBHahgXf3I",
+            "object_type": "variable_workflow"
+          }
+        ],
+        "properties": {
+          "atomic": {
+            "is_atomic": false
+          },
+          "delete_workflow_instance": false,
+          "display_name": "Get Lookback Timestamp",
+          "runtime_user": {
+            "target_default": true
+          },
+          "target": {
+            "no_target": true
+          }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+          {
+            "unique_name": "definition_activity_0243DEUXCQ4C26kuQWdvyhwcqiHR9LJFZOm",
+            "name": "Execute Python Script",
+            "title": "Create Lookback Timestamp",
+            "type": "python3.script",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": false,
+              "display_name": "Create Lookback Timestamp",
+              "script": "from datetime import datetime, timedelta\nimport sys\noffset = int(sys.argv[1])\nlookback = str((datetime.now() - timedelta(days=offset)).strftime(\"%Y-%m-%dT%H:%M:%S.%fZ\"))",
+              "script_arguments": [
+                "$workflow.definition_workflow_0243DD7MZP9LE2Zb44c9VJnJdUJcG7VT0G6.input.variable_workflow_0243DDUDJ9ERD0HF3pLMwTy705fTuh69JTP$"
+              ],
+              "script_queries": [
+                {
+                  "script_query": "lookback",
+                  "script_query_name": "lookback",
+                  "script_query_type": "string"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_0243DGZXAZZPD0dT1Y4QWVjVeSRi5Mi4CKx",
+            "name": "Set Variables",
+            "title": "Set Output",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Set Output",
+              "skip_execution": false,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_0243DD7MZP9LE2Zb44c9VJnJdUJcG7VT0G6.output.variable_workflow_0243DE36LCPB37CxuXriYxhnMDBHahgXf3I$",
+                  "variable_value_new": "$activity.definition_activity_0243DEUXCQ4C26kuQWdvyhwcqiHR9LJFZOm.output.script_queries.lookback$"
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          }
+        ],
+        "categories": [
+          "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+        ]
+      }
+    }
+  ],
   "atomic_workflows": [
     "definition_workflow_01PP76OBLMFFT4g43eU1MrFz5S7BxbqRzOk",
     "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
@@ -737,6 +866,7 @@
   "dependent_workflows": [
     "definition_workflow_01PP76OBLMFFT4g43eU1MrFz5S7BxbqRzOk",
     "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+    "definition_workflow_0243DD7MZP9LE2Zb44c9VJnJdUJcG7VT0G6",
     "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r"
   ]
 }
