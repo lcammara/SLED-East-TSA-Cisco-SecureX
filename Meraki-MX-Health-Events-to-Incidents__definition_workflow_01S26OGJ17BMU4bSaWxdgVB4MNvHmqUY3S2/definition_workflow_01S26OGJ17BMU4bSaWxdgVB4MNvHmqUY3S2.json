@@ -53,7 +53,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow fetches health events for the last hour from Meraki for a specific organization. If there are any health events, an incident are created in Threat Response \n\nTarget Group: Default TargetGroup\n\nTargets: Cisco Meraki, CTR_For_Access_Token\n\nSteps:\n[] Fetch global variables\n[] Calculate the time 1 hour ago\n\n[] Fetch security events from Meraki\n[] Check if the events were retrieved successfully:\n[] If not, end the workflow\n[] If they were:\n[]\u003e Loop through each event checking if it's an event type we care about\n[]\u003e If it is, strip the ports from the IPs, create the Threat Response objects\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0061",
+      "description": "This workflow fetches health events for the last hour from Meraki for a specific organization. If there are any health events, an incident are created in Threat Response \n\nTarget Group: Default TargetGroup\n\nTargets: Cisco Meraki, CTR_For_Access_Token\n\nSteps:\n[] Fetch global variables\n[] Calculate the time 1 hour ago\n\n[] Fetch security events from Meraki\n[] Check if the events were retrieved successfully:\n[] If not, end the workflow\n[] If they were:\n[]\u003e Loop through each event checking if it's an event type we care about\n[]\u003e create the Threat Response objects\n\n",
       "display_name": "Meraki - MX - Health Events to Incidents",
       "runtime_user": {
         "target_default": true
@@ -97,7 +97,7 @@
         "object_type": "definition_activity"
       },
       {
-        "unique_name": "definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F",
+        "unique_name": "definition_activity_024AE7PKIXB9M4dwAe11469P8TIuwPkQQNX",
         "name": "HTTP Request",
         "title": "Fetch Meraki Health Events",
         "type": "web-service.http_request",
@@ -159,17 +159,17 @@
           {
             "unique_name": "definition_activity_01S26OHDFAV6D2hbvmIZS3CjGcbLotPmnz0",
             "name": "Condition Branch",
-            "title": "200/Success",
+            "title": "Success",
             "type": "logic.condition_block",
             "base_type": "activity",
             "properties": {
               "condition": {
-                "left_operand": "$activity.definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F.output.status_code$",
-                "operator": "eq",
-                "right_operand": 200
+                "left_operand": "$activity.definition_activity_024AE7PKIXB9M4dwAe11469P8TIuwPkQQNX.output.response_body$",
+                "operator": "ne",
+                "right_operand": "[]"
               },
               "continue_on_failure": false,
-              "display_name": "200/Success",
+              "display_name": "Success",
               "skip_execution": false
             },
             "object_type": "definition_activity",
@@ -184,7 +184,7 @@
                   "action_timeout": 180,
                   "continue_on_failure": false,
                   "display_name": "JSONPath Query",
-                  "input_json": "$activity.definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F.output.response_body$",
+                  "input_json": "$activity.definition_activity_024AE7PKIXB9M4dwAe11469P8TIuwPkQQNX.output.response_body$",
                   "jsonpath_queries": [
                     {
                       "jsonpath_query": "[0]['category']",
@@ -225,7 +225,84 @@
                     {
                       "jsonpath_query": "[0]['scope']['devices'][0]['mac']",
                       "jsonpath_query_name": "mac",
-                      "jsonpath_query_type": "string"
+                      "jsonpath_query_type": "string",
+                      "zdate_type_format": "yyyy-MM-dd'T'HH:mm:ssZ"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F",
+                "name": "HTTP Request",
+                "title": "Fetch Meraki Network Name",
+                "type": "web-service.http_request",
+                "base_type": "activity",
+                "properties": {
+                  "accept": "application/json",
+                  "action_timeout": 180,
+                  "allow_auto_redirect": true,
+                  "allow_headers_redirect": false,
+                  "content_type": "application/json",
+                  "continue_on_error_status_code": true,
+                  "continue_on_failure": false,
+                  "custom_headers": [
+                    {
+                      "name": "X-Cisco-Meraki-API-Key",
+                      "value": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC2DZM08kzmijV6KSuoqhHLKTNF5$"
+                    }
+                  ],
+                  "display_name": "Fetch Meraki Network Name",
+                  "method": "GET",
+                  "relative_url": "/v1/networks/$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_024A28PCIWUCS5Wig9xsrxu74Zaut3pUiqC$",
+                  "runtime_user": {
+                    "override_target_runtime_user": false,
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "override_workflow_target_group_criteria": true,
+                    "target_group": {
+                      "run_on_all_targets": false,
+                      "use_criteria": {
+                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                        "conditions": [
+                          {
+                            "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                            "operator": "eqi",
+                            "right_operand": "Cisco Meraki"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_024AEG9CPOAIL5BMNriI4Km4wtyRi3Tte5y",
+                "name": "JSONPath Query",
+                "title": "JSONPath Query",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "JSONPath Query",
+                  "input_json": "$activity.definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "['id']",
+                      "jsonpath_query_name": "id",
+                      "jsonpath_query_type": "string",
+                      "zdate_type_format": "yyyy-MM-dd'T'HH:mm:ssZ"
+                    },
+                    {
+                      "jsonpath_query": "['name']",
+                      "jsonpath_query_name": "name",
+                      "jsonpath_query_type": "string",
+                      "zdate_type_format": "yyyy-MM-dd'T'HH:mm:ssZ"
                     }
                   ],
                   "skip_execution": false
@@ -277,7 +354,7 @@
                   "display_name": "Threat Response - Create Meraki Health Incident",
                   "input": {
                     "variable_workflow_01PP773PC153N1sUPzhFqV9bCbaxsz3yDwH": "$activity.definition_activity_01S277IRBPFD80gvwYIMus4jaLWTbJ9tgEP.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
-                    "variable_workflow_01PP773PC19C57fpPyxEFzuX0kP8dAqdVoQ": "Meraki Health Alert: $activity.definition_activity_024A9Z0MY94K578lYxoTtrkgEZn5acNo3Td.output.jsonpath_queries.type$\nSererity: $activity.definition_activity_024A9Z0MY94K578lYxoTtrkgEZn5acNo3Td.output.jsonpath_queries.severity$\nCategory: $activity.definition_activity_024A9Z0MY94K578lYxoTtrkgEZn5acNo3Td.output.jsonpath_queries.category$\nDevice Name: $activity.definition_activity_024A9Z0MY94K578lYxoTtrkgEZn5acNo3Td.output.jsonpath_queries.name$\nDevice Type: $activity.definition_activity_024A9Z0MY94K578lYxoTtrkgEZn5acNo3Td.output.jsonpath_queries.productType$\nMAC: $activity.definition_activity_024A9Z0MY94K578lYxoTtrkgEZn5acNo3Td.output.jsonpath_queries.mac$\nSerial Number: $activity.definition_activity_024A9Z0MY94K578lYxoTtrkgEZn5acNo3Td.output.jsonpath_queries.serial$",
+                    "variable_workflow_01PP773PC19C57fpPyxEFzuX0kP8dAqdVoQ": "Meraki Health Alert: $activity.definition_activity_024A9Z0MY94K578lYxoTtrkgEZn5acNo3Td.output.jsonpath_queries.type$\nSererity: $activity.definition_activity_024A9Z0MY94K578lYxoTtrkgEZn5acNo3Td.output.jsonpath_queries.severity$\nCategory: $activity.definition_activity_024A9Z0MY94K578lYxoTtrkgEZn5acNo3Td.output.jsonpath_queries.category$\nDevice Name: $activity.definition_activity_024A9Z0MY94K578lYxoTtrkgEZn5acNo3Td.output.jsonpath_queries.name$\nDevice Type: $activity.definition_activity_024A9Z0MY94K578lYxoTtrkgEZn5acNo3Td.output.jsonpath_queries.productType$\nMAC: $activity.definition_activity_024A9Z0MY94K578lYxoTtrkgEZn5acNo3Td.output.jsonpath_queries.mac$\nSerial Number: $activity.definition_activity_024A9Z0MY94K578lYxoTtrkgEZn5acNo3Td.output.jsonpath_queries.serial$\nNetwork ID: $activity.definition_activity_024AEG9CPOAIL5BMNriI4Km4wtyRi3Tte5y.output.jsonpath_queries.id$\nNetwork Name: $activity.definition_activity_024AEG9CPOAIL5BMNriI4Km4wtyRi3Tte5y.output.jsonpath_queries.name$",
                     "variable_workflow_01PP773PC1ALV47FYVyDKQsPCuKzTZwYeyv": "New",
                     "variable_workflow_01PP773PC1DZZ2rpbgvgD3IRrMsngkGxWkK": "Meraki Health Alert: $activity.definition_activity_024A9Z0MY94K578lYxoTtrkgEZn5acNo3Td.output.jsonpath_queries.type$",
                     "variable_workflow_01PP773PC1F547IibuvGX89UFFJE9ZNlHgb": "amber",
@@ -307,9 +384,9 @@
             "base_type": "activity",
             "properties": {
               "condition": {
-                "left_operand": "$activity.definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F.output.status_code$",
-                "operator": "ne",
-                "right_operand": 200
+                "left_operand": "$activity.definition_activity_024AE7PKIXB9M4dwAe11469P8TIuwPkQQNX.output.response_body$",
+                "operator": "eq",
+                "right_operand": ""
               },
               "continue_on_failure": false,
               "display_name": "Anything else",
@@ -320,14 +397,14 @@
               {
                 "unique_name": "definition_activity_01S26OHX5TIW236aWo593Wikju3U7IL2lJd",
                 "name": "Completed",
-                "title": "Failed",
+                "title": "No Events",
                 "type": "logic.completed",
                 "base_type": "activity",
                 "properties": {
-                  "completion_type": "failed-completed",
+                  "completion_type": "succeeded",
                   "continue_on_failure": false,
-                  "display_name": "Failed",
-                  "result_message": "Failed to fetch health events from Meraki\n\nStatus code: $activity.definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F.output.status_code$\nResponse body: $activity.definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F.output.response_body$",
+                  "display_name": "No Events",
+                  "result_message": "Failed to fetch health events from Meraki\n\nStatus code: $activity.definition_activity_024AE7PKIXB9M4dwAe11469P8TIuwPkQQNX.output.status_code$\nResponse body: $activity.definition_activity_024AE7PKIXB9M4dwAe11469P8TIuwPkQQNX.output.response_body$",
                   "skip_execution": false
                 },
                 "object_type": "definition_activity"
