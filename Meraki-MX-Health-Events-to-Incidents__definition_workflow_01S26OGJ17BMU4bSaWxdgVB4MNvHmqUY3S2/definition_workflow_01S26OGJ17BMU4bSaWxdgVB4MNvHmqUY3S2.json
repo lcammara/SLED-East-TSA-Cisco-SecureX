@@ -11,6 +11,19 @@
         "properties": {
           "value": "*****",
           "scope": "local",
+          "name": "Meraki Network ID S",
+          "type": "datatype.secure_string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_024BZBXB7RFEJ3acWawGzmqiiLzS3cjZTgE",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "*****",
+          "scope": "local",
           "name": "Meraki API Key",
           "type": "datatype.secure_string",
           "description": "Your Meraki API key. This can be generated in your Meraki dashboard",
@@ -21,30 +34,16 @@
         "object_type": "variable_workflow"
       },
       {
-        "schema_id": "datatype.string",
+        "schema_id": "datatype.secure_string",
         "properties": {
-          "value": "397947",
+          "value": "*****",
           "scope": "local",
-          "name": "Meraki Organization ID",
-          "type": "datatype.string",
-          "description": "The ID of the Meraki organization you want to fetch security events for. You can find this ID in your Meraki dashboard",
+          "name": "Meraki Organization ID S",
+          "type": "datatype.secure_string",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01S26OGJC20DA3Ox1eUf3ijOFD3r1ImyPfE",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "L_630503947831878619",
-          "scope": "local",
-          "name": "Meraki Network ID",
-          "type": "datatype.string",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_024A28PCIWUCS5Wig9xsrxu74Zaut3pUiqC",
+        "unique_name": "variable_workflow_024BZCNOAY2TN5aSFkkEHc3mJrR0iynidb9",
         "object_type": "variable_workflow"
       }
     ],
@@ -118,7 +117,7 @@
           ],
           "display_name": "Fetch Meraki Health Events",
           "method": "GET",
-          "relative_url": "/v1/networks/$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_024A28PCIWUCS5Wig9xsrxu74Zaut3pUiqC$/health/alerts?t0=$activity.Get the time 1 hour ago.output.Result$",
+          "relative_url": "/v1/networks/$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_024BZBXB7RFEJ3acWawGzmqiiLzS3cjZTgE$/health/alerts?t0=$activity.Get the time 1 hour ago.output.Result$",
           "runtime_user": {
             "override_target_runtime_user": false,
             "target_default": true
@@ -255,7 +254,7 @@
                   ],
                   "display_name": "Fetch Meraki Network Name",
                   "method": "GET",
-                  "relative_url": "/v1/networks/$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_024A28PCIWUCS5Wig9xsrxu74Zaut3pUiqC$",
+                  "relative_url": "/v1/networks/$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_024BZBXB7RFEJ3acWawGzmqiiLzS3cjZTgE$",
                   "runtime_user": {
                     "override_target_runtime_user": false,
                     "target_default": true
